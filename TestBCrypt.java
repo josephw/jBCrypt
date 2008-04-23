@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 /**
  * JUnit unit tests for BCrypt routines
  * @author Damien Miller
- * @version 0.1
+ * @version 0.2
  */
 public class TestBCrypt extends TestCase {
 	String test_vectors[][] = {
@@ -159,7 +159,7 @@ public class TestBCrypt extends TestCase {
 
 	/**
 	 * Test method for 'BCrypt.checkpw(String, String)'
-	 * expecting success
+	 * expecting failure
 	 */
 	public void testCheckpw_failure() {
 		System.out.print("BCrypt.checkpw w/ bad passwords: ");
