@@ -4,9 +4,9 @@
     <groupId>org.mindrot</groupId>
     <artifactId>jbcrypt</artifactId>
     <packaging>jar</packaging>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.3m-SNAPSHOT</version>
     <name>jbcrypt</name>
-    <url>http://maven.apache.org</url>
+    <url>http://www.mindrot.org/</url>
 
     <organization>
         <name>mindrot.org</name>
@@ -23,7 +23,7 @@
             <roles>
                 <role>developer</role>
             </roles>
-            <timezone>-5</timezone>
+            <timezone>+10</timezone>
         </developer>
     </developers>
     <distributionManagement>
@@ -71,7 +71,7 @@
                         <artifactId>maven-release-plugin</artifactId>
                         <version>2.0</version>
                         <configuration>
-                            <tagBase>TODO</tagBase>
+                            <tagBase>https://jbcrypt.googlecode.com/svn/tags</tagBase>
                             <mavenExecutorId>forked-path</mavenExecutorId>
                         </configuration>
                     </plugin>

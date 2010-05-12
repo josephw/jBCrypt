@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  * JUnit unit tests for BCrypt routines
  * @author Damien Miller
  * @author Timothy Stone, Maven build
- * @version 0.4
+ * @version 0.3m
  */
 public class BCryptTest {
 

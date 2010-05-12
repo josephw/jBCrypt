@@ -59,7 +59,7 @@ import java.security.SecureRandom;
  *
  * @author Damien Miller
  * @author Timothy Stone, Maven build
- * @version 0.4
+ * @version 0.3m
  */
 public class BCrypt {
     // BCrypt parameters
