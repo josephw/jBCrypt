@@ -14,8 +14,6 @@
 
 package org.mindrot.jbcrypt;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -90,14 +88,6 @@ public class BCryptTest {
     };
 
     public BCryptTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
     }
 
     /**

@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -7,6 +8,16 @@
     <version>0.3m-SNAPSHOT</version>
     <name>jbcrypt</name>
     <url>http://www.mindrot.org/</url>
+    <description>
+        jBCrypt is a Java implementation of OpenBSD's Blowfish password hashing code, as described in A Future-Adaptable Password Scheme by Niels Provos and David Mazières, by Damien Miller.
+    </description>
+    <licenses>
+        <license>
+            <distribution>repo</distribution>
+            <name>ISC/BSD License</name>
+            <comments>The text of the license may be found at http://www.opensource.org/licenses/isc-license.txt</comments>
+        </license>
+    </licenses>
     <scm>
         <connection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</connection>
         <developerConnection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</developerConnection>
@@ -91,6 +102,16 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.7</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.1.1</version>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -103,4 +124,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
