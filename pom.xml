@@ -7,7 +7,10 @@
     <version>0.3m-SNAPSHOT</version>
     <name>jbcrypt</name>
     <url>http://www.mindrot.org/</url>
-
+    <scm>
+        <connection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</developerConnection>
+    </scm>
     <organization>
         <name>mindrot.org</name>
         <url>http://www.mindrot.org/</url>
@@ -72,6 +75,7 @@
                         <version>2.0</version>
                         <configuration>
                             <tagBase>https://jbcrypt.googlecode.com/svn/tags</tagBase>
+                            <!-- do not remove, required for Mac OS X use -->
                             <mavenExecutorId>forked-path</mavenExecutorId>
                         </configuration>
                     </plugin>
