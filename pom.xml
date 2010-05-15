@@ -4,7 +4,7 @@
     <groupId>org.mindrot</groupId>
     <artifactId>jbcrypt</artifactId>
     <packaging>jar</packaging>
-    <version>0.3m</version>
+    <version>0.4m-SNAPSHOT</version>
     <name>jbcrypt</name>
     <url>http://www.mindrot.org/</url>
     <description>
@@ -18,8 +18,8 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://jbcrypt.googlecode.com/svn/tags/jbcrypt-0.3m</connection>
-        <developerConnection>scm:svn:https://jbcrypt.googlecode.com/svn/tags/jbcrypt-0.3m</developerConnection>
+        <connection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</developerConnection>
     </scm>
     <organization>
         <name>mindrot.org</name>
