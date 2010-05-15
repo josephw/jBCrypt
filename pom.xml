@@ -85,9 +85,7 @@
                         <version>2.0</version>
                         <configuration>
                             <tagBase>https://jbcrypt.googlecode.com/svn/tags</tagBase>
-                            <!-- do not remove, required for Mac OS X use 
                             <mavenExecutorId>forked-path</mavenExecutorId>
-                            -->
                         </configuration>
                     </plugin>
                     <plugin>
