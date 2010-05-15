@@ -4,7 +4,7 @@
     <groupId>org.mindrot</groupId>
     <artifactId>jbcrypt</artifactId>
     <packaging>jar</packaging>
-    <version>0.4m-SNAPSHOT</version>
+    <version>0.3m-SNAPSHOT</version>
     <name>jbcrypt</name>
     <url>http://www.mindrot.org/</url>
     <description>
@@ -85,8 +85,9 @@
                         <version>2.0</version>
                         <configuration>
                             <tagBase>https://jbcrypt.googlecode.com/svn/tags</tagBase>
-                            <!-- do not remove, required for Mac OS X use -->
+                            <!-- do not remove, required for Mac OS X use 
                             <mavenExecutorId>forked-path</mavenExecutorId>
+                            -->
                         </configuration>
                     </plugin>
                     <plugin>
