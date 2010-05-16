@@ -99,6 +99,10 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                        	<gpg.keyname>${gpg.keyname}</gpg.keyname>
+                        	<gpg.useAgent>${gpg.useAgent}</gpg.useAgent>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
