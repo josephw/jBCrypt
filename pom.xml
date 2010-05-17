@@ -19,6 +19,7 @@
     <scm>
         <connection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</connection>
         <developerConnection>scm:svn:https://jbcrypt.googlecode.com/svn/trunk</developerConnection>
+        <url>http://code.google.com/p/jbcrypt/source/browse/</url>
     </scm>
     <organization>
         <name>mindrot.org</name>
