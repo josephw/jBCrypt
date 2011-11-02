@@ -12,8 +12,9 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import java.io.UnsupportedEncodingException;
+package org.springframework.security.crypto.bcrypt;
 
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
 /**
@@ -616,7 +617,7 @@ public class BCrypt {
 
         init_key();
         ekskey(salt, password);
-        for (i = 0; i < rounds; i++) {
+        for (i = 0; i != rounds; i++) {
             key(password);
             key(salt);
         }
@@ -685,6 +686,10 @@ public class BCrypt {
         rs.append("$");
         if (rounds < 10)
             rs.append("0");
+        if (rounds > 31) {
+            throw new IllegalArgumentException(
+                "rounds exceeds maximum (31)");
+        }
         rs.append(Integer.toString(rounds));
         rs.append("$");
         rs.append(encode_base64(saltb, saltb.length));
@@ -710,6 +715,10 @@ public class BCrypt {
         rs.append("$2a$");
         if (log_rounds < 10)
             rs.append("0");
+        if (log_rounds > 31) {
+            throw new IllegalArgumentException(
+                "log_rounds exceeds maximum (31)");
+        }
         rs.append(Integer.toString(log_rounds));
         rs.append("$");
         rs.append(encode_base64(rnd, rnd.length));
@@ -745,6 +754,20 @@ public class BCrypt {
      * @return  true if the passwords match, false otherwise
      */
     public static boolean checkpw(String plaintext, String hashed) {
-        return (hashed.compareTo(hashpw(plaintext, hashed)) == 0);
+        byte hashed_bytes[];
+        byte try_bytes[];
+        try {
+            String try_pw = hashpw(plaintext, hashed);
+            hashed_bytes = hashed.getBytes("UTF-8");
+            try_bytes = try_pw.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException uee) {
+            return false;
+        }
+        if (hashed_bytes.length != try_bytes.length)
+            return false;
+        byte ret = 0;
+        for (int i = 0; i < try_bytes.length; i++)
+            ret |= hashed_bytes[i] ^ try_bytes[i];
+        return ret == 0;
     }
 }
