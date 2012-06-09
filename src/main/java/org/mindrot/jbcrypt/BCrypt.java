@@ -716,6 +716,9 @@ public class BCrypt {
      * @return	an encoded salt value
      */
     public static String gensalt(int log_rounds, SecureRandom random) {
+        if (log_rounds < 4 || log_rounds > 31) {
+            throw new IllegalArgumentException("Bad number of rounds");
+        }
         StringBuffer rs = new StringBuffer();
         byte rnd[] = new byte[BCRYPT_SALT_LEN];
 

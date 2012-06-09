@@ -202,4 +202,30 @@ public class BCryptTest {
         assertEquals(1024, BCrypt.roundsForLogRounds(10));
         assertEquals(0x80000000L, BCrypt.roundsForLogRounds(31));
     }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void genSaltFailsWithTooFewRounds() {
+        BCrypt.gensalt(3);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void genSaltFailsWithTooManyRounds() {
+        BCrypt.gensalt(32);
+    }
+    
+    @Test
+    public void genSaltGeneratesCorrectSaltPrefix() {
+        assertTrue(BCrypt.gensalt(4).startsWith("$2a$04$"));
+        assertTrue(BCrypt.gensalt(31).startsWith("$2a$31$"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void hashpwFailsWhenSaltSpecifiesTooFewRounds() {
+        BCrypt.hashpw("password", "$2a$03$......................");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void hashpwFailsWhenSaltSpecifiesTooManyRounds() {
+        BCrypt.hashpw("password", "$2a$32$......................");
+    }
 }
