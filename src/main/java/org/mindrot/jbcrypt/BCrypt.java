@@ -609,7 +609,8 @@ public class BCrypt {
      * @return	an array containing the binary hashed password
      */
     private byte[] crypt_raw(byte password[], byte salt[], int log_rounds) {
-        int rounds, i, j;
+        long rounds, r;
+        int i, j;
         int cdata[] = (int[]) bf_crypt_ciphertext.clone();
         int clen = cdata.length;
         byte ret[];
@@ -617,14 +618,14 @@ public class BCrypt {
         if (log_rounds < 4 || log_rounds > 31) {
             throw new IllegalArgumentException("Bad number of rounds");
         }
-        rounds = 1 << log_rounds;
+        rounds = 1L << log_rounds;
         if (salt.length != BCRYPT_SALT_LEN) {
             throw new IllegalArgumentException("Bad salt length");
         }
 
         init_key();
         ekskey(salt, password);
-        for (i = 0; i < rounds; i++) {
+        for (r = 0; r < rounds; r++) {
             key(password);
             key(salt);
         }
