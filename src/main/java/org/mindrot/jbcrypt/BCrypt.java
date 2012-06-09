@@ -381,7 +381,7 @@ public class BCrypt {
     static String encode_base64(byte d[], int len)
             throws IllegalArgumentException {
         int off = 0;
-        StringBuffer rs = new StringBuffer();
+        StringBuilder rs = new StringBuilder();
         int c1, c2;
 
         if (len <= 0 || len > d.length) {
@@ -414,15 +414,15 @@ public class BCrypt {
 
     /**
      * Look up the 3 bits base64-encoded by the specified character,
-     * range-checking againt conversion table
+     * range-checking against conversion table
      * @param x	the base64-encoded value
      * @return	the decoded value of x
      */
     private static byte char64(char x) {
-        if ((int) x < 0 || (int) x > index_64.length) {
+        if (x > index_64.length) {
             return -1;
         }
-        return index_64[(int) x];
+        return index_64[x];
     }
 
     /**
@@ -654,7 +654,7 @@ public class BCrypt {
         byte passwordb[], saltb[], hashed[];
         char minor = (char) 0;
         int rounds, off = 0;
-        StringBuffer rs = new StringBuffer();
+        StringBuilder rs = new StringBuilder();
 
         int saltLength = salt.length();
         
@@ -705,7 +705,7 @@ public class BCrypt {
         if (rounds < 10) {
             rs.append("0");
         }
-        rs.append(Integer.toString(rounds));
+        rs.append(rounds);
         rs.append("$");
         rs.append(encode_base64(saltb, saltb.length));
         rs.append(encode_base64(hashed,
@@ -725,7 +725,7 @@ public class BCrypt {
         if (log_rounds < 4 || log_rounds > 31) {
             throw new IllegalArgumentException("Bad number of rounds");
         }
-        StringBuffer rs = new StringBuffer();
+        StringBuilder rs = new StringBuilder();
         byte rnd[] = new byte[BCRYPT_SALT_LEN];
 
         random.nextBytes(rnd);
@@ -734,7 +734,7 @@ public class BCrypt {
         if (log_rounds < 10) {
             rs.append("0");
         }
-        rs.append(Integer.toString(log_rounds));
+        rs.append(log_rounds);
         rs.append("$");
         rs.append(encode_base64(rnd, rnd.length));
         return rs.toString();
@@ -769,6 +769,6 @@ public class BCrypt {
      * @return	true if the passwords match, false otherwise
      */
     public static boolean checkpw(String plaintext, String hashed) {
-        return (hashed.compareTo(hashpw(plaintext, hashed)) == 0);
+        return (hashed.equals(hashpw(plaintext, hashed)));
     }
 }
