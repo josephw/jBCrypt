@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 package org.mindrot.jbcrypt;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.security.SecureRandom;
@@ -435,9 +436,8 @@ public class BCrypt {
      */
     static byte[] decode_base64(String s, int maxolen)
             throws IllegalArgumentException {
-        StringBuffer rs = new StringBuffer();
+        ByteArrayOutputStream out = new ByteArrayOutputStream(maxolen);
         int off = 0, slen = s.length(), olen = 0;
-        byte ret[];
         byte c1, c2, c3, c4, o;
 
         if (maxolen <= 0) {
@@ -452,7 +452,7 @@ public class BCrypt {
             }
             o = (byte) (c1 << 2);
             o |= (c2 & 0x30) >> 4;
-            rs.append((char) o);
+            out.write(o);
             if (++olen >= maxolen || off >= slen) {
                 break;
             }
@@ -462,22 +462,18 @@ public class BCrypt {
             }
             o = (byte) ((c2 & 0x0f) << 4);
             o |= (c3 & 0x3c) >> 2;
-            rs.append((char) o);
+            out.write(o);
             if (++olen >= maxolen || off >= slen) {
                 break;
             }
             c4 = char64(s.charAt(off++));
             o = (byte) ((c3 & 0x03) << 6);
             o |= c4;
-            rs.append((char) o);
+            out.write(o);
             ++olen;
         }
 
-        ret = new byte[olen];
-        for (off = 0; off < olen; off++) {
-            ret[off] = (byte) rs.charAt(off);
-        }
-        return ret;
+        return out.toByteArray();
     }
 
     /**
