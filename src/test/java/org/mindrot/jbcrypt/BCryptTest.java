@@ -195,4 +195,11 @@ public class BCryptTest {
         System.out.print(".");
         System.out.println("");
     }
+    
+    @Test
+    public void roundsForDoesNotOverflow()
+    {
+        assertEquals(1024, BCrypt.roundsForLogRounds(10));
+        assertEquals(0x80000000L, BCrypt.roundsForLogRounds(31));
+    }
 }

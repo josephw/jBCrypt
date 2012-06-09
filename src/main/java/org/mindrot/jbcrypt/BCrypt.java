@@ -599,6 +599,13 @@ public class BCrypt {
         }
     }
 
+    static long roundsForLogRounds(int log_rounds) {
+        if (log_rounds < 4 || log_rounds > 31) {
+            throw new IllegalArgumentException("Bad number of rounds");
+        }
+        return 1L << log_rounds;
+    }
+    
     /**
      * Perform the central password hashing step in the
      * bcrypt scheme
@@ -609,35 +616,27 @@ public class BCrypt {
      * @return	an array containing the binary hashed password
      */
     private byte[] crypt_raw(byte password[], byte salt[], int log_rounds) {
-        long rounds, r;
-        int i, j;
         int cdata[] = (int[]) bf_crypt_ciphertext.clone();
         int clen = cdata.length;
         byte ret[];
 
-        if (log_rounds < 4 || log_rounds > 31) {
-            throw new IllegalArgumentException("Bad number of rounds");
-        }
-        rounds = 1L << log_rounds;
-        if (salt.length != BCRYPT_SALT_LEN) {
-            throw new IllegalArgumentException("Bad salt length");
-        }
+        long rounds = roundsForLogRounds(log_rounds);
 
         init_key();
         ekskey(salt, password);
-        for (r = 0; r < rounds; r++) {
+        for (long i = 0; i < rounds; i++) {
             key(password);
             key(salt);
         }
 
-        for (i = 0; i < 64; i++) {
-            for (j = 0; j < (clen >> 1); j++) {
+        for (int i = 0; i < 64; i++) {
+            for (int j = 0; j < (clen >> 1); j++) {
                 encipher(cdata, j << 1);
             }
         }
 
         ret = new byte[clen * 4];
-        for (i = 0, j = 0; i < clen; i++) {
+        for (int i = 0, j = 0; i < clen; i++) {
             ret[j++] = (byte) ((cdata[i] >> 24) & 0xff);
             ret[j++] = (byte) ((cdata[i] >> 16) & 0xff);
             ret[j++] = (byte) ((cdata[i] >> 8) & 0xff);
