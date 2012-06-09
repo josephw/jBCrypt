@@ -14,6 +14,8 @@
 
 package org.mindrot.jbcrypt;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -195,12 +197,83 @@ public class BCryptTest {
         System.out.print(".");
         System.out.println("");
     }
-    
+
     @Test
     public void roundsForDoesNotOverflow()
     {
         assertEquals(1024, BCrypt.roundsForLogRounds(10));
         assertEquals(0x80000000L, BCrypt.roundsForLogRounds(31));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void emptyByteArrayCannotBeEncoded()
+    {
+        BCrypt.encode_base64(new byte[0], 0);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void moreBytesThanInTheArrayCannotBeEncoded()
+    {
+        BCrypt.encode_base64(new byte[1], 2);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void decodingMustRequestMoreThanZeroBytes()
+    {
+        BCrypt.decode_base64("", 0);
+    }
+    
+    @Test
+    public void testBase64EncodeSimpleByteArrays()
+    {
+        assertEquals("..", BCrypt.encode_base64(new byte[]{0}, 1));
+        assertEquals("...", BCrypt.encode_base64(new byte[]{0, 0}, 2));
+        assertEquals("....", BCrypt.encode_base64(new byte[]{0, 0, 0}, 3));
+    }
+    
+    @Test
+    public void decodingCharsOutsideAsciiGivesNoResults()
+    {
+        byte[] ba = BCrypt.decode_base64("ππππππππ", 1);
+        assertEquals(0, ba.length);
+    }
+
+    @Test
+    public void decodingStopsWithFirstInvalidCharacter()
+    {
+        assertEquals(1, BCrypt.decode_base64("....", 1).length);
+        assertEquals(0, BCrypt.decode_base64(" ....", 1).length);
+    }
+
+    @Test
+    public void decodingOnlyProvidesAvailableBytes()
+    {
+        assertEquals(0, BCrypt.decode_base64("", 1).length);
+        assertEquals(3, BCrypt.decode_base64("......", 3).length);
+        assertEquals(4, BCrypt.decode_base64("......", 4).length);
+        assertEquals(4, BCrypt.decode_base64("......", 5).length);
+    }
+    
+    /**
+     * Encode and decode each byte value in each position.
+     */
+    @Test
+    public void testBase64EncodeDecode()
+    {
+        byte[] ba = new byte[3];
+
+        for (int b = 0; b <= 0xFF; b++) {
+            for (int i = 0; i < ba.length; i++) {
+                Arrays.fill(ba, (byte) 0);
+                ba[i] = (byte) b;
+                
+                String s = BCrypt.encode_base64(ba, 3);
+                assertEquals(4, s.length());
+                
+                byte[] decoded = BCrypt.decode_base64(s, 3);
+                assertArrayEquals(ba, decoded);
+            }
+        }
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -227,5 +300,19 @@ public class BCryptTest {
     @Test(expected = IllegalArgumentException.class)
     public void hashpwFailsWhenSaltSpecifiesTooManyRounds() {
         BCrypt.hashpw("password", "$2a$32$......................");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void saltLengthIsChecked()
+    {
+        BCrypt.hashpw("", "");
+    }
+    
+    @Test
+    public void hashpwWorksWithOldRevision()
+    {
+        assertEquals(
+                "$2$05$......................bvpG2UfzdyW/S0ny/4YyEZrmczoJfVm",
+                BCrypt.hashpw("password", "$2$05$......................"));
     }
 }
