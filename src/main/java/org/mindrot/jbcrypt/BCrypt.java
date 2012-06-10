@@ -705,10 +705,6 @@ public class BCrypt {
         if (rounds < 10) {
             rs.append("0");
         }
-        if (rounds > 31) {
-            throw new IllegalArgumentException(
-                "rounds exceeds maximum (31)");
-        }
         rs.append(rounds);
         rs.append("$");
         rs.append(encode_base64(saltb, saltb.length));
@@ -737,10 +733,6 @@ public class BCrypt {
         rs.append("$2a$");
         if (log_rounds < 10) {
             rs.append("0");
-        }
-        if (log_rounds > 31) {
-            throw new IllegalArgumentException(
-                "log_rounds exceeds maximum (31)");
         }
         rs.append(log_rounds);
         rs.append("$");
