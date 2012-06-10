@@ -315,4 +315,16 @@ public class BCryptTest {
                 "$2$05$......................bvpG2UfzdyW/S0ny/4YyEZrmczoJfVm",
                 BCrypt.hashpw("password", "$2$05$......................"));
     }
+    
+    @Test
+    public void equalsOnStringsIsCorrect()
+    {
+        assertTrue(BCrypt.equalsNoEarlyReturn("", ""));
+        assertTrue(BCrypt.equalsNoEarlyReturn("test", "test"));
+        
+        assertFalse(BCrypt.equalsNoEarlyReturn("test", ""));
+        assertFalse(BCrypt.equalsNoEarlyReturn("", "test"));
+        
+        assertFalse(BCrypt.equalsNoEarlyReturn("test", "pass"));
+    }
 }
