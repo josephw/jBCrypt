@@ -34,5 +34,3 @@ A simple example that demonstrates most of the features:
 There is also a C#/.NET port by Derek Slager:
 
 http://derekslager.com/blog/posts/2007/10/bcrypt-dotnet-strong-password-hashing-for-dotnet-and-mono.ashx
-
-$Id: README,v 1.3 2008/04/10 11:02:25 djm Exp $
