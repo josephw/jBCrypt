@@ -25,6 +25,16 @@ import static org.junit.Assert.*;
  */
 public class BCryptTest {
 
+    private static void print(String s)
+    {
+        System.out.print(s);
+    }
+    
+    private static void println(String s)
+    {
+        System.out.println(s);
+    }
+    
     String test_vectors[][] = {
         {"",
             "$2a$06$DCq7YPn5Rq63x1Lad4cll.",
@@ -88,24 +98,21 @@ public class BCryptTest {
             "$2a$12$WApznUOJfkEGSmYRfnkrPOr466oFDCaj4b6HY3EXGvfxm43seyhgC"}
     };
 
-    public BCryptTest() {
-    }
-
     /**
      * Test method for 'BCrypt.hashpw(String, String)'
      */
     @Test
     public void testHashpw() {
-        System.out.print("BCrypt.hashpw(): ");
+        print("BCrypt.hashpw(): ");
         for (int i = 0; i < test_vectors.length; i++) {
             String plain = test_vectors[i][0];
             String salt = test_vectors[i][1];
             String expected = test_vectors[i][2];
             String hashed = BCrypt.hashpw(plain, salt);
             assertEquals(hashed, expected);
-            System.out.print(".");
+            print(".");
         }
-        System.out.println("");
+        println("");
     }
 
     /**
@@ -113,19 +120,19 @@ public class BCryptTest {
      */
     @Test
     public void testGensaltInt() {
-        System.out.print("BCrypt.gensalt(log_rounds):");
+        print("BCrypt.gensalt(log_rounds):");
         for (int i = 4; i <= 12; i++) {
-            System.out.print(" " + Integer.toString(i) + ":");
+            print(" " + Integer.toString(i) + ":");
             for (int j = 0; j < test_vectors.length; j += 4) {
                 String plain = test_vectors[j][0];
                 String salt = BCrypt.gensalt(i);
                 String hashed1 = BCrypt.hashpw(plain, salt);
                 String hashed2 = BCrypt.hashpw(plain, hashed1);
                 assertEquals(hashed1, hashed2);
-                System.out.print(".");
+                print(".");
             }
         }
-        System.out.println("");
+        println("");
     }
 
     /**
@@ -133,16 +140,16 @@ public class BCryptTest {
      */
     @Test
     public void testGensalt() {
-        System.out.print("BCrypt.gensalt(): ");
+        print("BCrypt.gensalt(): ");
         for (int i = 0; i < test_vectors.length; i += 4) {
             String plain = test_vectors[i][0];
             String salt = BCrypt.gensalt();
             String hashed1 = BCrypt.hashpw(plain, salt);
             String hashed2 = BCrypt.hashpw(plain, hashed1);
             assertEquals(hashed1, hashed2);
-            System.out.print(".");
+            print(".");
         }
-        System.out.println("");
+        println("");
     }
 
     /**
@@ -151,14 +158,14 @@ public class BCryptTest {
      */
     @Test
     public void testCheckpw_success() {
-        System.out.print("BCrypt.checkpw w/ good passwords: ");
+        print("BCrypt.checkpw w/ good passwords: ");
         for (int i = 0; i < test_vectors.length; i++) {
             String plain = test_vectors[i][0];
             String expected = test_vectors[i][2];
             assertTrue(BCrypt.checkpw(plain, expected));
-            System.out.print(".");
+            print(".");
         }
-        System.out.println("");
+        println("");
     }
 
     /**
@@ -167,15 +174,15 @@ public class BCryptTest {
      */
     @Test
     public void testCheckpw_failure() {
-        System.out.print("BCrypt.checkpw w/ bad passwords: ");
+        print("BCrypt.checkpw w/ bad passwords: ");
         for (int i = 0; i < test_vectors.length; i++) {
             int broken_index = (i + 4) % test_vectors.length;
             String plain = test_vectors[i][0];
             String expected = test_vectors[broken_index][2];
             assertFalse(BCrypt.checkpw(plain, expected));
-            System.out.print(".");
+            print(".");
         }
-        System.out.println("");
+        println("");
     }
 
     /**
@@ -183,18 +190,18 @@ public class BCryptTest {
      */
     @Test
     public void testInternationalChars() {
-        System.out.print("BCrypt.hashpw w/ international chars: ");
+        print("BCrypt.hashpw w/ international chars: ");
         String pw1 = "ππππππππ";
         String pw2 = "????????";
 
         String h1 = BCrypt.hashpw(pw1, BCrypt.gensalt());
         assertFalse(BCrypt.checkpw(pw2, h1));
-        System.out.print(".");
+        print(".");
 
         String h2 = BCrypt.hashpw(pw2, BCrypt.gensalt());
         assertFalse(BCrypt.checkpw(pw1, h2));
-        System.out.print(".");
-        System.out.println("");
+        print(".");
+        println("");
     }
 
     @Test
