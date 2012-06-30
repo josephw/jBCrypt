@@ -369,18 +369,18 @@ public class BCrypt {
 
     /**
      * Encode a byte array using bcrypt's slightly-modified base64
-     * encoding scheme. Note that this is *not* compatible with
+     * encoding scheme. Note that this is <strong>not</strong> compatible with
      * the standard MIME-base64 encoding.
      *
      * @param d the byte array to encode
      * @param len   the number of bytes to encode
-     * @return  base64-encoded string
+     * @param rs the destination buffer for the base64-encoded string
      * @exception IllegalArgumentException if the length is invalid
      */
-    static String encode_base64(byte d[], int len)
+    static void encode_base64(byte d[], int len,
+            StringBuilder rs)
             throws IllegalArgumentException {
         int off = 0;
-        StringBuilder rs = new StringBuilder();
         int c1, c2;
 
         if (len <= 0 || len > d.length) {
@@ -408,7 +408,6 @@ public class BCrypt {
             rs.append(base64_code[c1 & 0x3f]);
             rs.append(base64_code[c2 & 0x3f]);
         }
-        return rs.toString();
     }
 
     /**
@@ -706,9 +705,9 @@ public class BCrypt {
         }
         rs.append(rounds);
         rs.append("$");
-        rs.append(encode_base64(saltb, saltb.length));
-        rs.append(encode_base64(hashed,
-                bf_crypt_ciphertext.length * 4 - 1));
+        encode_base64(saltb, saltb.length, rs);
+        encode_base64(hashed,
+                bf_crypt_ciphertext.length * 4 - 1, rs);
         return rs.toString();
     }
 
@@ -735,7 +734,7 @@ public class BCrypt {
         }
         rs.append(log_rounds);
         rs.append("$");
-        rs.append(encode_base64(rnd, rnd.length));
+        encode_base64(rnd, rnd.length, rs);
         return rs.toString();
     }
 

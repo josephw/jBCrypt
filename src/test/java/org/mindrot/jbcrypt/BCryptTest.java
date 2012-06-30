@@ -22,7 +22,6 @@ import static org.junit.Assert.*;
 /**
  * JUnit unit tests for BCrypt routines
  * @author Damien Miller
- * @version 0.3m
  */
 public class BCryptTest {
 
@@ -208,13 +207,13 @@ public class BCryptTest {
     @Test(expected = IllegalArgumentException.class)
     public void emptyByteArrayCannotBeEncoded()
     {
-        BCrypt.encode_base64(new byte[0], 0);
+        BCrypt.encode_base64(new byte[0], 0, new StringBuilder());
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void moreBytesThanInTheArrayCannotBeEncoded()
     {
-        BCrypt.encode_base64(new byte[1], 2);
+        BCrypt.encode_base64(new byte[1], 2, new StringBuilder());
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -223,12 +222,20 @@ public class BCryptTest {
         BCrypt.decode_base64("", 0);
     }
     
+    private static String encode_base64(byte d[], int len)
+            throws IllegalArgumentException
+    {
+        StringBuilder rs = new StringBuilder();
+        BCrypt.encode_base64(d, len, rs);
+        return rs.toString();
+    }
+    
     @Test
     public void testBase64EncodeSimpleByteArrays()
     {
-        assertEquals("..", BCrypt.encode_base64(new byte[]{0}, 1));
-        assertEquals("...", BCrypt.encode_base64(new byte[]{0, 0}, 2));
-        assertEquals("....", BCrypt.encode_base64(new byte[]{0, 0, 0}, 3));
+        assertEquals("..", encode_base64(new byte[]{0}, 1));
+        assertEquals("...", encode_base64(new byte[]{0, 0}, 2));
+        assertEquals("....", encode_base64(new byte[]{0, 0, 0}, 3));
     }
     
     @Test
@@ -267,7 +274,7 @@ public class BCryptTest {
                 Arrays.fill(ba, (byte) 0);
                 ba[i] = (byte) b;
                 
-                String s = BCrypt.encode_base64(ba, 3);
+                String s = encode_base64(ba, 3);
                 assertEquals(4, s.length());
                 
                 byte[] decoded = BCrypt.decode_base64(s, 3);
