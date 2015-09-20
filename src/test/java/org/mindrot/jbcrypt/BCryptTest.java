@@ -352,10 +352,20 @@ public class BCryptTest {
     }
 
     @Test
-    public void testGetLogRounds()
+    public void testGetLogRoundsFromSalt()
     {
         int logRounds = 11;
         String salt = BCrypt.gensalt(logRounds);
         assertEquals(logRounds, BCrypt.getlogrounds(salt));
+    }
+
+    @Test
+    public void testGetLogRoundsFromHashed()
+    {
+        String password = "password";
+        int logRounds = 11;
+        String salt = BCrypt.gensalt(logRounds);
+        String hashed = BCrypt.hashpw(password, salt);
+        assertEquals(logRounds, BCrypt.getlogrounds(hashed));
     }
 }
