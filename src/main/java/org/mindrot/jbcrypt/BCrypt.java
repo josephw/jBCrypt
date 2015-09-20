@@ -776,7 +776,7 @@ public class BCrypt {
      * @return the salt the password has been hashed with
      */
     public static String getsalt(String hashed) {
-        int minor, off = 0;
+        int minor, off;
         if (hashed.charAt(0) != '$' || hashed.charAt(1) != '2') {
             throw new IllegalArgumentException("Invalid salt version");
         }
@@ -805,8 +805,7 @@ public class BCrypt {
      * @return the log2 of the number of rounds of hashing applied.
      */
     public static int getlogrounds(String saltOrHashed) {
-        Integer log_rounds = null;
-        int minor, off = 0;
+        int log_rounds, minor, off;
         if (saltOrHashed.charAt(0) != '$' || saltOrHashed.charAt(1) != '2') {
             throw new IllegalArgumentException("Invalid saltOrHashed version");
         }
@@ -823,9 +822,6 @@ public class BCrypt {
             throw new IllegalArgumentException("Missing saltOrHashed rounds");
         }
         log_rounds = Integer.parseInt(saltOrHashed.substring(off, off + 2));
-        if (log_rounds == null) {
-            throw new IllegalArgumentException("Invalid saltOrHashed rounds");
-        }
         return log_rounds;
     }
 

@@ -354,7 +354,6 @@ public class BCryptTest {
     @Test
     public void testGetLogRounds()
     {
-        String password = "password";
         int logRounds = 11;
         String salt = BCrypt.gensalt(logRounds);
         assertEquals(logRounds, BCrypt.getlogrounds(salt));
