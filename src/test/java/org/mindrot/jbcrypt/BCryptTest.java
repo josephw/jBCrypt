@@ -341,4 +341,22 @@ public class BCryptTest {
         
         assertFalse(BCrypt.equalsNoEarlyReturn("test", "pass"));
     }
+
+    @Test
+    public void testGetSalt()
+    {
+        String password = "password";
+        String salt = BCrypt.gensalt();
+        String hashedPassword = BCrypt.hashpw(password, salt);
+        assertEquals(salt, BCrypt.getsalt(hashedPassword));
+    }
+
+    @Test
+    public void testGetLogRounds()
+    {
+        String password = "password";
+        int logRounds = 11;
+        String salt = BCrypt.gensalt(logRounds);
+        assertEquals(logRounds, BCrypt.getlogrounds(salt));
+    }
 }
